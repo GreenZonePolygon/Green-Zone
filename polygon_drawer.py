@@ -25,7 +25,7 @@ draw = Draw(
 draw.add_to(m)
 
 # Display the Map in Streamlit
-map_data = st_folium(m, width=700, height=500)
+map_data = st_folium(m, width=900, height=600)
 
 # Store drawn polygons
 if "polygon_data" not in st.session_state:
@@ -40,6 +40,9 @@ if map_data and map_data.get("all_drawings"):
             polygons.append({"name": polygon_name, "coordinates": feature["geometry"]["coordinates"][0]})
 
     st.session_state["polygon_data"] = polygons
+
+st.write("")  # Adds some spacing
+st.write("### Click below when you finish drawing:")
 
 if st.button("Finish Drawing & Save"):
     if st.session_state["polygon_data"]:
