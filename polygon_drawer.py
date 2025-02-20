@@ -78,11 +78,12 @@ st.title("Draw green zone polygons!")
 # Search box for city input
 city = st.text_input("Enter a city name (optional):", "")
 
-# Get city coordinates using geopy
-geolocator = Nominatim(user_agent="geo_search")
+# Initialize session state for map center
 if "map_center" not in st.session_state:
-    st.session_state["map_center"] = [45.0, -93.0]  # Default
+    st.session_state["map_center"] = [45.0, -93.0]  # Default location
 
+# Get city coordinates using geopy and update map center
+geolocator = Nominatim(user_agent="geo_search")
 if city:
     location = geolocator.geocode(city)
     if location:
@@ -91,8 +92,9 @@ if city:
     else:
         st.warning("City not found. Showing default map.")
 
-# Create a map centered on the selected city
-m = folium.Map(location=st.session_state["map_center"], zoom_start=12)  # Increased
+# Create the map centered at the searched city
+m = folium.Map(location=st.session_state["map_center"], zoom_start=12)  # Adjusted zoom
+
 
 # Add Draw Tool (Users can draw multiple polygons)
 draw = Draw(
