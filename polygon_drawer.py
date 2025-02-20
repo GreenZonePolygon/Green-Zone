@@ -25,7 +25,7 @@ draw = Draw(
 draw.add_to(m)
 
 # Display the Map in Streamlit
-map_data = st_folium(m, width=1050, height=1150)
+map_data = st_folium(m, width=900, height=950)
 
 # Store drawn polygons
 if "polygon_data" not in st.session_state:
