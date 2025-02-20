@@ -41,7 +41,6 @@ if map_data and map_data.get("all_drawings"):
 
     st.session_state["polygon_data"] = polygons
 
-st.write("")  # Adds some spacing
 st.write("### Click below when you finish drawing:")
 
 if st.button("Finish Drawing & Save"):
