@@ -80,19 +80,19 @@ city = st.text_input("Enter a city name (optional):", "")
 
 # Get city coordinates using geopy
 geolocator = Nominatim(user_agent="geo_search")
+if "map_center" not in st.session_state:
+    st.session_state["map_center"] = [45.0, -93.0]  # Default
+
 if city:
     location = geolocator.geocode(city)
     if location:
-        lat, lon = location.latitude, location.longitude
-        st.success(f"Map centered on: {city} ({lat}, {lon})")
+        st.session_state["map_center"] = [location.latitude, location.longitude]
+        st.success(f"Map centered on: {city} ({location.latitude}, {location.longitude})")
     else:
         st.warning("City not found. Showing default map.")
-        lat, lon = 45.0, -93.0  # Default location
-else:
-    lat, lon = 45.0, -93.0  # Default location
 
-# Create a map where users can freely scroll and zoom
-m = folium.Map(location=[lat, lon], zoom_start=10)
+# Create a map centered on the selected city
+m = folium.Map(location=st.session_state["map_center"], zoom_start=12)  # Increased
 
 # Add Draw Tool (Users can draw multiple polygons)
 draw = Draw(
