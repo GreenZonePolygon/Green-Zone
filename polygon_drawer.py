@@ -92,7 +92,7 @@ if city:
         st.warning("City not found. Showing default map.")
 
 # Create a map centered on the selected city
-m = folium.Map(location=st.session_state["map_center"], zoom_start=10)  # Increased
+m = folium.Map(location=st.session_state["map_center"], zoom_start=12)  # Increased
 
 # Add Draw Tool (Users can draw multiple polygons)
 draw = Draw(
