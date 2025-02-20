@@ -85,7 +85,7 @@ if "map_bounds" not in st.session_state:
     st.session_state["map_bounds"] = None
 
 # Get city coordinates using geopy and update map center
-geolocator = Nominatim(user_agent="geo_search")
+geolocator = Nominatim(user_agent="geo_search", timeout=10)
 if city:
     location = geolocator.geocode(city, exactly_one=True)
     if location:
