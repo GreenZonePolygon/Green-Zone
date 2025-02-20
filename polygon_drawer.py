@@ -81,19 +81,29 @@ city = st.text_input("Enter a city name (optional):", "")
 # Initialize session state for map center
 if "map_center" not in st.session_state:
     st.session_state["map_center"] = [45.0, -93.0]  # Default location
+if "map_bounds" not in st.session_state:
+    st.session_state["map_bounds"] = None
 
 # Get city coordinates using geopy and update map center
 geolocator = Nominatim(user_agent="geo_search")
 if city:
-    location = geolocator.geocode(city)
+    location = geolocator.geocode(city, exactly_one=True)
     if location:
         st.session_state["map_center"] = [location.latitude, location.longitude]
+        st.session_state["map_bounds"] = [
+            [location.latitude - 0.05, location.longitude - 0.05],  # Southwest corner
+            [location.latitude + 0.05, location.longitude + 0.05]   # Northeast corner
+        ]
         st.success(f"Map centered on: {city} ({location.latitude}, {location.longitude})")
     else:
         st.warning("City not found. Showing default map.")
 
 # Create the map centered at the searched city
-m = folium.Map(location=st.session_state["map_center"], zoom_start=12)  # Adjusted zoom
+m = folium.Map(location=st.session_state["map_center"], zoom_start=12)  # Default zoom
+
+# If bounds exist, apply them to adjust view
+if st.session_state["map_bounds"]:
+    m.fit_bounds(st.session_state["map_bounds"])
 
 
 # Add Draw Tool (Users can draw multiple polygons)
